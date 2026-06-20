@@ -1,0 +1,24 @@
+district,stops,lines,departures_per_hour,night_departures,connectivity_score
+Innere Stadt,35,14,420,85,95
+Leopoldstadt,28,11,310,60,82
+Landstraße,30,12,340,65,86
+Wieden,20,8,250,45,70
+Margareten,18,7,220,38,65
+Mariahilf,22,9,260,42,72
+Neubau,24,10,270,48,75
+Josefstadt,16,6,190,35,60
+Alsergrund,26,10,290,52,78
+Favoriten,32,13,360,55,80
+Simmering,21,8,210,32,58
+Meidling,29,11,320,50,76
+Hietzing,17,6,180,25,52
+Penzing,19,7,200,28,55
+Rudolfsheim-Fünfhaus,23,9,250,40,70
+Ottakring,27,10,280,44,74
+Hernals,18,7,190,30,56
+Währing,20,8,220,34,61
+Döbling,22,8,230,36,64
+Brigittenau,25,10,270,46,73
+Floridsdorf,31,12,330,58,79
+Donaustadt,34,13,340,60,77
+Liesing,16,5,160,20,48

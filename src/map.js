@@ -1,20 +1,34 @@
 import * as d3 from "d3";
 
-export async function renderMap() {
+export async function renderMap(state) {
 
+    //Data loading and preprocessing
     const geoData = await d3.json("/data/districts.geojson");
+
     const metrics = await d3.csv("/data/district_metrics.csv");
+    const filteredMetrics = metrics.filter(d => d.dayTime == state.dayTime && d.daytype == state.dayType);
+    const metricsByDistrict = new Map(filteredMetrics.map(d => [d.district, d]));
 
-    const metricsByDistrict = new Map(metrics.map(d => [d.district, d]));
-
+    //SVG setup
     const width = 900;
     const height = 600;
 
     const svg = d3
         .select("#connectivity-map")
+        .html("") // Clear previous map
         .append("svg")
         .attr("width", width)
         .attr("height", height);
+
+    const color = d3.scaleSequential()
+        .domain([40,100])
+        .interpolator(
+            state.dayTime === "night" ? d3.interpolatePurples : d3.interpolateReds);
+
+    const tooltip = d3
+        .select("body")
+        .append("div")  
+        .attr("class", "tooltip");
 
     const projection = d3.geoIdentity()
         .reflectY(true)
@@ -22,19 +36,13 @@ export async function renderMap() {
 
     const pathGenerator = d3.geoPath().projection(projection);
 
-    const color = d3.scaleSequential()
-        .domain([40,100])
-        .interpolator(d3.interpolateReds);
-
-    const tooltip = d3
-        .select("body")
-        .append("div")
-        .attr("class", "tooltip");
-
+    // Draw districts
     svg.selectAll("path")
         .data(geoData.features)
         .join("path")
         .attr("d", pathGenerator)
+
+        // Color districts
         .attr("fill", d => {
             const district = getDistrictName(d);
             const row = metricsByDistrict.get(district);
@@ -42,6 +50,8 @@ export async function renderMap() {
         })
         .attr("stroke", "#ffffff")
         .attr("stroke-width", 1)
+
+        // Tooltip interactivity
         .on("mouseover", (event, d) => {
             const district = getDistrictName(d);
             const row = metricsByDistrict.get(district); 

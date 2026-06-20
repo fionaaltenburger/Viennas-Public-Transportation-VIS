@@ -1,6 +1,7 @@
 import "./style.css";
 
 import * as d3 from "d3";
+import { renderMap } from "./map.js";
 
 const app = document.querySelector("#app");
 
@@ -52,6 +53,8 @@ app.innerHTML = `
   </main>
 `;
 
+renderMap(state);
+
 document.querySelectorAll(".segmented-control").forEach(control => {
     const controlName = control.dataset.control;
 
@@ -66,10 +69,11 @@ document.querySelectorAll(".segmented-control").forEach(control => {
         
         control.dataset.active = value;
 
-        console.log(state);
+        updatePageState();
     });
 });
 
-import { renderMap } from "./map.js";
-
-renderMap();
+function updatePageState() {
+    document.body.classList.toggle("night-mode", state.dayTime === "night");
+    renderMap(state);
+}

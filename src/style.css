@@ -87,3 +87,17 @@ main {
     z-index: 999;
     box-shadow: 0 4px 14px rgba(0,0,0,0.3);
 }
+
+body.night-mode {
+    background-color: #1f2933;
+    color: #f4f5f7;
+}
+
+body.night-mode header {
+    background-color: #111827;
+    color: #f4f5f7;
+}
+
+body.night-mode .view {
+    background-color: #1e293b;
+}

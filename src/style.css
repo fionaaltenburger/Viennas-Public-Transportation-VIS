@@ -101,3 +101,7 @@ body.night-mode header {
 body.night-mode .view {
     background-color: #1e293b;
 }
+
+body.night-mode .segmented-control button.active {
+    background-color: #6954c8;
+}

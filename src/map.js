@@ -64,16 +64,64 @@ export async function renderMap(state) {
             `
                 <strong>${district}</strong><br>
                 Connectivity Score: ${row.connectivity_score}<br>
-                Stops: ${row.stops}<br>
-                Lines: ${row.lines}<br>
-                Departures/hour: ${row.departures_per_hour}
             `);
         })
 
         .on("mouseleave", () => {
             tooltip.style("opacity", 0);
         }); 
-    }
+
+
+        // Legend
+        const legendWidth = 200;
+        const legendHeight = 20;
+
+        const defs = svg.append("defs");
+
+        const linearGradient = defs.append("linearGradient")
+            .attr("id", "connectivity-gradient")
+            .attr("x1", "0%")
+            .attr("x2", "100%");
+
+        linearGradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", color(40));
+
+        linearGradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", color(100));
+    
+
+        const legend = svg.append("g")
+            .attr("transform", `translate(${width - legendWidth - 20}, ${height - legendHeight - 20})`);
+
+        legend.append("rect")
+            .attr("width", legendWidth)
+            .attr("height", legendHeight)
+            .style("fill", "url(#connectivity-gradient)")
+            .style("stroke", "#000")
+            .style("stroke-width", 1);      
+
+        legend.append("text")
+            .attr("x", 0)
+            .attr("y", -5)
+            .text("Connectivity Score")
+            .style("font-size", "12px")
+            .style("font-weight", "bold");
+
+        legend.append("text")
+            .attr("x", 0)
+            .attr("y", legendHeight + 15)
+            .text("Low")
+            .style("font-size", "10px");
+
+        legend.append("text")
+            .attr("x", legendWidth)
+            .attr("y", legendHeight + 15)
+            .text("High")
+            .style("font-size", "10px")
+            .style("text-anchor", "end");
+}
 
     function getDistrictName(feature) {
         return (

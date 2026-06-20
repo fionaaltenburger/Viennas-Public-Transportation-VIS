@@ -2,6 +2,7 @@ import "./style.css";
 
 import * as d3 from "d3";
 import { renderMap } from "./map.js";
+import { renderComparison } from "./comparison.js";
 
 const app = document.querySelector("#app");
 
@@ -54,6 +55,7 @@ app.innerHTML = `
 `;
 
 renderMap(state);
+renderComparison(state);
 
 document.querySelectorAll(".segmented-control").forEach(control => {
     const controlName = control.dataset.control;
@@ -76,4 +78,5 @@ document.querySelectorAll(".segmented-control").forEach(control => {
 function updatePageState() {
     document.body.classList.toggle("night-mode", state.dayTime === "night");
     renderMap(state);
+    renderComparison(state);
 }

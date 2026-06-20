@@ -12,6 +12,7 @@ const state = {
 app.innerHTML = `
   <header>
     <h1>How Connected Are You?</h1>
+    <h2>Explore the connectivity of Vienna's public transportation system</h2>
 
     <div class="controls">
       <div class="segmented-control" data-control="dayTime">
@@ -68,3 +69,7 @@ document.querySelectorAll(".segmented-control").forEach(control => {
         console.log(state);
     });
 });
+
+import { renderMap } from "./map.js";
+
+renderMap();

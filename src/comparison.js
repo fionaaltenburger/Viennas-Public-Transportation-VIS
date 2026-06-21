@@ -11,7 +11,7 @@ const metrics = [
     ];
 
 export async function renderComparison(state){
-    const data = await d3.csv("/data/district_metrics.csv", d3.autoType);
+    const data = await d3.csv(`${import.meta.env.BASE_URL}data/district_metrics.csv`, d3.autoType)
 
     const filteredData = data.filter(d => d.dayTime === state.dayTime && d.dayType === state.dayType);
 

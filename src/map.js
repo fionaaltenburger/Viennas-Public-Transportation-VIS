@@ -3,9 +3,9 @@ import * as d3 from "d3";
 export async function renderMap(state) {
 
     //Data loading and preprocessing
-    const geoData = await d3.json("/data/districts.geojson");
+    const geoData = await d3.json(`${import.meta.env.BASE_URL}data/districts.geojson`)
 
-    const metrics = await d3.csv("/data/district_metrics.csv");
+    const metrics = await d3.csv(`${import.meta.env.BASE_URL}data/district_metrics.csv`, d3.autoType)
     const filteredMetrics = metrics.filter(d => d.dayTime == state.dayTime && d.dayType == state.dayType);
     const metricsByDistrict = new Map(filteredMetrics.map(d => [d.district, d]));
 

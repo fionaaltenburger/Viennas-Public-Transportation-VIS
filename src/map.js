@@ -17,8 +17,12 @@ export async function renderMap(state) {
         .select("#connectivity-map")
         .html("") // Clear previous map
         .append("svg")
+        .attr("class", "map-svg")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .attr("role", "img")
+        .attr("aria-label", "Vienna district connectivity map");
 
     const color = d3.scaleSequentialSqrt()
         .domain([0,100])
@@ -27,7 +31,9 @@ export async function renderMap(state) {
 
     const tooltip = d3
         .select("body")
-        .append("div")  
+        .selectAll(".tooltip")
+        .data([null])
+        .join("div")
         .attr("class", "tooltip");
 
     const projection = d3.geoIdentity()
@@ -40,6 +46,7 @@ export async function renderMap(state) {
     svg.selectAll("path")
         .data(geoData.features)
         .join("path")
+        .attr("class", "district")
         .attr("d", pathGenerator)
 
         // Color districts
@@ -56,6 +63,8 @@ export async function renderMap(state) {
             const district = getDistrictName(d);
             const row = metricsByDistrict.get(district); 
 
+            d3.select(event.currentTarget).classed("is-hovered", true).raise();
+
             tooltip
             .style("opacity", 1)
             .style("left", (event.pageX + 12) + "px")
@@ -67,7 +76,14 @@ export async function renderMap(state) {
             `);
         })
 
-        .on("mouseleave", () => {
+        .on("mousemove", event => {
+            tooltip
+                .style("left", (event.pageX + 16) + "px")
+                .style("top", (event.pageY + 16) + "px");
+        })
+
+        .on("mouseleave", event => {
+            d3.select(event.currentTarget).classed("is-hovered", false);
             tooltip.style("opacity", 0);
         }); 
 
@@ -93,6 +109,7 @@ export async function renderMap(state) {
     
 
         const legend = svg.append("g")
+            .attr("class", "map-legend")
             .attr("transform", `translate(${width - legendWidth - 20}, ${height - legendHeight - 20})`);
 
         legend.append("rect")

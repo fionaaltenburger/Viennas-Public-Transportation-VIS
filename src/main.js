@@ -13,8 +13,9 @@ const state = {
 
 app.innerHTML = `
   <header>
-    <h1>How Connected Are You?</h1>
-    <h2>Explore the connectivity of Vienna's public transportation system</h2>
+      <h1>How Connected Are You?</h1>
+      <h2>Explore the connectivity of Vienna's public transportation system</h2>
+    </div>
 
     <div class="controls">
       <div class="segmented-control" data-control="dayTime">
@@ -33,7 +34,7 @@ app.innerHTML = `
 
   <main>
 
-    <section class="view">
+    <section class="view map-view">
       <h2>District Connectivity Overview</h2>
       <div id="connectivity-map"></div>
     </section>
@@ -52,6 +53,7 @@ app.innerHTML = `
 
     </section>
   </main>
+  </div>
 `;
 
 renderMap(state);

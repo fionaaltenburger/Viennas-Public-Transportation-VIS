@@ -48,8 +48,10 @@ function drawChart(data, allData) {
   const svg = d3.select("#comparison-chart")
     .html("")
     .append("svg")
+    .attr("class", "comparison-svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
+    .attr("viewBox", `0 0 ${width} ${height}`)
 
   const rowHeight = 55;
   const barMaxWidth = 180;
@@ -66,6 +68,7 @@ function drawChart(data, allData) {
   svg.selectAll(".metric-label")
     .data(metrics)
     .join("text")
+    .attr("class", "metric-label")
     .attr("x", margin.left - 20)
     .attr("y", d => y(d.label) + y.bandwidth() / 2)
     .attr("text-anchor", "end")
@@ -76,9 +79,9 @@ function drawChart(data, allData) {
     const groupX = i === 0 ? leftX : rightX;
 
     svg.append("text")
+      .attr("class", "district-heading")
       .attr("x", groupX)
       .attr("y", 18)
-      .attr("font-weight", "bold")
       .text(district.district);
 
     metrics.forEach(metric => {
@@ -96,16 +99,28 @@ function drawChart(data, allData) {
             .range([0, barMaxWidth]);
 
       const value = district[metric.key];
+      
 
       svg.append("rect")
+        .attr("class", "bar-track")
+        .attr("x", groupX)
+        .attr("y", y(metric.label))
+        .attr("width", barMaxWidth)
+        .attr("height", y.bandwidth())
+        .attr("rx", 7)
+        .attr("ry", 7);
+
+      svg.append("rect")
+        .attr("class", `comparison-bar comparison-bar-${i + 1}`)
         .attr("x", groupX)
         .attr("y", y(metric.label))
         .attr("width", x(value))
         .attr("height", y.bandwidth())
-        .attr("fill", i === 0 ? "#b84545" : "#562121")
-        .attr("opacity", 0.75);
+        .attr("rx", 7)
+        .attr("ry", 7);
 
       svg.append("text")
+        .attr("class", "value-label")
         .attr("x", groupX + x(value) + 8)
         .attr("y", y(metric.label) + y.bandwidth() / 2)
         .attr("dominant-baseline", "middle")

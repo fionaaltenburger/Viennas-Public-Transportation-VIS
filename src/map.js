@@ -6,7 +6,7 @@ export async function renderMap(state) {
     const geoData = await d3.json("/data/districts.geojson");
 
     const metrics = await d3.csv("/data/district_metrics.csv");
-    const filteredMetrics = metrics.filter(d => d.dayTime == state.dayTime && d.daytype == state.dayType);
+    const filteredMetrics = metrics.filter(d => d.dayTime == state.dayTime && d.dayType == state.dayType);
     const metricsByDistrict = new Map(filteredMetrics.map(d => [d.district, d]));
 
     //SVG setup
@@ -20,8 +20,8 @@ export async function renderMap(state) {
         .attr("width", width)
         .attr("height", height);
 
-    const color = d3.scaleSequential()
-        .domain([40,100])
+    const color = d3.scaleSequentialSqrt()
+        .domain([0,100])
         .interpolator(
             state.dayTime === "night" ? d3.interpolatePurples : d3.interpolateReds);
 
